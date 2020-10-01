@@ -1,9 +1,6 @@
 import random
 import time
 
-OGRE = 80
-OGRE_DAMAGE = random.randint(5, 25)
-
 #text animation
 def printText(sentence):
     for char in sentence:
@@ -86,7 +83,7 @@ while x < 3:
     
     if movement == "l":
         print("You found", foundItem)
-        addInventory = input("add this to your inventory?   y/n >> ")
+        addInventory = input("add this to your inventory?   y / n >> ")
         if addInventory == "y":
             printText("Adding to inventory")
             inventory.append(foundItem)
@@ -118,29 +115,30 @@ time.sleep(2)
 printText("Wow these are all great items!")
 printText("Thanks for getting them for me!")
 list.clear(inventory)
-time.sleep(.500)
+time.sleep(1)
 printText("Bob ran off with all of your items.")
 print("Your current inventory:", inventory)
 
-time.sleep(1)
+time.sleep(.500)
 printText("Hey you there!")
 time.sleep(2)
 printText("Did Bob just steal all of your items?!?")
 printText("I know a way you can get them back. Bob lives at the end of Forest Grove ")
 printText("There are many enemies along the way. Here you'll need this.")
 printText("Recieved iron sword.")
+inventory.append("iron_sword")
+print("Your inventory is:", inventory)
 time.sleep(1)
 printText("Names Billy by the way. Come talk to me if you ever need to heal yourself from battle")
 printText("Speaking of battle, how bout we have a practice one right now!")
-inventory.append("iron_sword")
-print("Your inventory is:", inventory)
 
 Battle()
 printText("Great battle!")
 printText("If you ever want to become a better swordsman, I can teach you and give you better swords for a price of course")
 printText("You'll want to head up north next. That will lead you to Bob")
 printText("Don't forget, press i to open your inventory")
-player_inventory = input("What would you like to do? >> ")
+player_inventory = input("What would you like to do?")
+printText("i for inventory or n to go north")
 if player_inventory == "i":
     print(inventory)
 equipping_item = input("Would you like to equip an item? y / n >> ")
