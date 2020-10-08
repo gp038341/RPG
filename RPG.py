@@ -1,15 +1,60 @@
 import random
 import time
 
+inventory = []
+gold = 0
+
 #text animation
 def printText(sentence):
     for char in sentence:
         print(char, end ='')
-        time.sleep(.045)
+        time.sleep(.00001)
     print()
 
-#Battle system
-def Battle():
+def item():
+    print(inventory)
+    equipping_item = input("Would you like to equip an item? y / n >> ")
+    if equipping_item == "y":
+        equip = input("Choose an item >> ")
+        if equip in inventory:
+            if equip == "iron_sword":
+                printText("Equipping item...")
+                printText("damage = 7-22")
+                damage = random.randint(7, 22)
+            if equip == "potion":
+                print("You can't equip that item")
+            if equip == "steel_sword":
+                printText("Equipping item...")
+                printText("damage = 15 - 25")
+                damage = random.randrange(15, 25)
+        else: print("That item isn't in your inventory")
+
+                
+                
+def shop(gold):
+    printText("Welcome to my shop. Here you can buy swords, potions, and more")
+    shop = ["steel_sword", "bronze_sword", "silver_sword", "gold_sword", "potion"]
+    print(shop)
+    buying = input("Go ahead and choose an item >> ")
+    if buying == "steel_sword":
+        printText("That will be 150 coins please")
+        if gold >= 150:
+            confirm_purchase = input("Would you like to buy this item? y / n >> ")
+            if confirm_purchase == "y":
+                printText("purchasing...")
+                gold -= 150
+                print("Gold:", gold)
+                inventory.append("steel_sword")
+                
+        return gold
+        if gold < 150:
+            print("You can't afford that right now.")
+
+            
+
+
+#Battle systemgoldgold
+def battle(gold):
     print()
     playerHealth = 100
     enemyHealth = 75
@@ -30,9 +75,14 @@ def Battle():
             print("Enemy dealt:", enemyDamage)
             print("Player Health:", playerHealth)
         if enemyHealth <= 0:
+            print("You won!")
+            print("Recieved 30 gold")
+            gold += 30
             battling = False
         if playerHealth <= 0:
             print("You Lose!")
+            if gold >= 10:
+                print("You lost 10 gold")
             battling = False
         if attackChoice == "run":
             gotAway = random.randint(1, 50)
@@ -42,13 +92,20 @@ def Battle():
                 print("Got away safely")
                 battling = False
         if attackChoice == "item":
-            print("Opening inventory")
-            print(inventory)
-            item_choice = input("Which item do you want to use? >> ")
-            if item_choice == "potion":
-                playerHealth += 20
-                print("Player Health:", playerHealth)
-    
+            print("Inventory:", inventory)
+            item = input("What item would you like to use? >> ")
+            if item in inventory:
+                if item == "potion":
+                    playerHealth += 20
+                    print("Gained 20 HP")
+                    print("Player Health:", playerHealth)
+                    inventory.remove("potion")
+                if item == "iron_sword":
+                    print("You have to equip that item to use it")
+                else: print("That item isn't in your inventory")
+    return gold
+
+
 
 print("RPG")
 
@@ -69,9 +126,6 @@ print()
 print()
 
 items = ["a staff, ", "gold, ", "a sword, ", "a potion, ", "nothing, ", "nothing, ", "nothing, ", "nothing, ", "nothing, ", "nothing, "]
-
-inventory = []
-gold = 0
 
 #Loops 3 times
 x = 0
@@ -115,37 +169,39 @@ time.sleep(2)
 printText("Wow these are all great items!")
 printText("Thanks for getting them for me!")
 list.clear(inventory)
-time.sleep(1)
+time.sleep(.500)
 printText("Bob ran off with all of your items.")
 print("Your current inventory:", inventory)
 
-time.sleep(.500)
+time.sleep(1.500)
 printText("Hey you there!")
-time.sleep(2)
+time.sleep(1)
 printText("Did Bob just steal all of your items?!?")
 printText("I know a way you can get them back. Bob lives at the end of Forest Grove ")
 printText("There are many enemies along the way. Here you'll need this.")
 printText("Recieved iron sword.")
-inventory.append("iron_sword")
-print("Your inventory is:", inventory)
 time.sleep(1)
 printText("Names Billy by the way. Come talk to me if you ever need to heal yourself from battle")
 printText("Speaking of battle, how bout we have a practice one right now!")
+inventory.append("iron_sword")
+print("Your inventory is:", inventory)
 
-Battle()
+battle(gold)
 printText("Great battle!")
-printText("If you ever want to become a better swordsman, I can teach you and give you better swords for a price of course")
 printText("You'll want to head up north next. That will lead you to Bob")
 printText("Don't forget, press i to open your inventory")
-player_inventory = input("What would you like to do?")
-printText("i for inventory or n to go north")
-if player_inventory == "i":
-    print(inventory)
-equipping_item = input("Would you like to equip an item? y / n >> ")
-if equipping_item == "y":
-    print("Equiping item")
-    damage = random.randint(7, 22)
+deciding = True
+while deciding:
+    printText("What would you like to do?")
+    player_choice = input("go north, i, shop, or quit >> ")
+    if player_choice == "i":
+        item()
+    if player_choice == "shop":
+        shop(gold)
 
+        if input == "go north":
+            print("Going North")
+            deciding = False
 
 
 
