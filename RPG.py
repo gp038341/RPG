@@ -3,12 +3,14 @@ import time
 
 inventory = []
 gold = 0
+#OGRE = 125
+#OGRE_DAMAGE = random.randint(7, 25)
 
 #text animation
 def printText(sentence):
     for char in sentence:
         print(char, end ='')
-        time.sleep(.00001)
+        time.sleep(.03)
     print()
 
 def item():
@@ -46,12 +48,39 @@ def shop(gold):
                 print("Gold:", gold)
                 inventory.append("steel_sword")
                 
-        return gold
+                return gold
         if gold < 150:
             print("You can't afford that right now.")
 
-            
+    
+    if buying == "bronze_sword":
+        printText("That will be 250 coins please")
+        if gold >= 250:
+            confirm_purchase = input("Would you like to buy this item? y / n >> ")
+            if confirm_purchase == "y":
+                printText("purchasing...")
+                gold -= 250
+                print("Gold:", gold)
+                inventory.append("bronze_sword")
 
+    return gold
+
+
+    if buying == "potion":
+        printText("That will be 30 coins please.")
+        if gold >= 30:
+            confirm_purchase = input("Would you like to buy this item? y / n >> ")
+            if confirm_purchase == "y":
+                printText("purchasing...")
+                gold -= 30
+                print("Gold:", gold)
+                inventory.append("potion")
+                
+                return gold
+        if gold < 30:
+            print("You can't afford that right now.")
+
+            
 
 #Battle systemgoldgold
 def battle(gold):
@@ -78,11 +107,13 @@ def battle(gold):
             print("You won!")
             print("Recieved 30 gold")
             gold += 30
+            return gold
             battling = False
         if playerHealth <= 0:
             print("You Lose!")
             if gold >= 10:
                 print("You lost 10 gold")
+                return gold
             battling = False
         if attackChoice == "run":
             gotAway = random.randint(1, 50)
@@ -101,9 +132,9 @@ def battle(gold):
                     print("Player Health:", playerHealth)
                     inventory.remove("potion")
                 if item == "iron_sword":
-                    print("You have to equip that item to use it")
-                else: print("That item isn't in your inventory")
-    return gold
+                    print("You have to equip that item to use it.")
+                else: print("That item isn't in your inventory.")
+           
 
 
 
@@ -193,15 +224,18 @@ printText("Don't forget, press i to open your inventory")
 deciding = True
 while deciding:
     printText("What would you like to do?")
-    player_choice = input("go north, i, shop, or quit >> ")
+    player_choice = input("go north, i, shop, battle, or quit >> ")
     if player_choice == "i":
         item()
     if player_choice == "shop":
         shop(gold)
 
-        if input == "go north":
-            print("Going North")
-            deciding = False
+    if player_choice == "go north":
+        print("Going North")
+        deciding = False
+        
+    if player_choice == "battle":
+        battle(gold)
 
 
 
